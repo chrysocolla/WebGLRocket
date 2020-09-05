@@ -42,18 +42,21 @@
     uniform vec2 u_res;
     attribute vec4 a_data;
     varying vec4 v_color;
-    
+
     vec3 h2rgb( float h ){
       return clamp( abs( mod( h * 6. + vec3( 0, 4, 2 ), 6. ) - 3. ) -1., 0., 1. );
     }
+
     void clear(){
       gl_Position = vec4( a_data.xy, 0, 1 );
       v_color = vec4( 0, 0, 0, a_data.w );
     }
+
     void draw(){
       gl_Position = vec4( vec2( 1, -1 ) * ( ( a_data.xy / u_res ) * 2. - 1. ), 0, 1 );
       v_color = vec4( h2rgb( a_data.z ), a_data.w );
     }
+
     void main(){
       if( u_mode == 0 )
         draw();
@@ -64,7 +67,7 @@
   <script id=fragment_shader_source type="x-shader/x-fragment">
     precision mediump float;
     varying vec4 v_color;
-    
+
     void main(){
       gl_FragColor = v_color;
     }

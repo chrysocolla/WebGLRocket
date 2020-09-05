@@ -72,9 +72,9 @@ class Stage {
     this.gl.uniform1i(this.locations.u_mode, 1) // 将顶点着色器模式设置为清除模式，不进行顶点转换;
     let a = this.options.projectileMask         // 令a为用于遮盖尾迹的遮罩alpha值;
     this.data = [                               // 画两个直角三角形填充满视口;
-      -1, -1, 0, a,                           // 注: 在很多图形库的实现中，绘制三角形然后拼接的效率要
-      1, -1, 0, a,                            //     高于直接绘制定价形式的矩形，推测此代码片段的原作
-      -1, 1, 0, a,                            //     者在此处这样处理，仅是出于习惯的原因;
+      -1, -1, 0, a,                             // 注: 在很多图形库的实现中，绘制三角形然后拼接的效率要
+      1, -1, 0, a,                              //     高于直接绘制定价形式的矩形，推测此代码片段的原作
+      -1, 1, 0, a,                              //     者在此处这样处理，仅是出于习惯的原因;
       -1, 1, 0, a,
       1, -1, 0, a,
       1, 1, 0, a
@@ -85,12 +85,12 @@ class Stage {
   }
 
   // 更新画布方法(在此实现烟花正常燃放模拟逻辑)
-  update(deltaTime) {                             // deltaTime为两次绘制间的时间，仅更新位置(简化计算);
+  update(deltaTime) {                           // deltaTime为两次绘制间的时间，仅更新位置(简化计算);
     ++this.tick                                 // 增加计数器tick;
     if (this.rockets.length < this.options.rockets)
-      this.rockets.push(new Rocket(this))     // 当烟花对象不足时，填充一个烟花;
+      this.rockets.push(new Rocket(this))       // 当烟花对象不足时，填充一个烟花;
     this.rockets.map(rocket => {
-      rocket.step(deltaTime)                  // 更新全部烟花对象的状态;
+      rocket.step(deltaTime)                    // 更新全部烟花对象的状态;
     })
     this._draw(this.gl.LINES)                   // 绘制连线;
   }
@@ -99,15 +99,16 @@ class Stage {
   _draw(glDrawType) {
     this.gl.bufferData(this.gl.ARRAY_BUFFER, new Float32Array(this.data), this.gl.STATIC_DRAW)
     this.gl.drawArrays(glDrawType, 0, this.data.length / 4)
-    // 顶点数据池中单个数据结构(即a_data)见下:
-    // (x, y, hue, alpha);
-    //
-    // 其中:
-    // (x, y)被转化到屏幕空间;
-    // hue经由函数h2rgb，由色调转化为RGB颜色;
-    // alpha作为透明度直接传入;
-    //
-    // 详见#vertex_shader_source
+    /* 顶点数据池中单个数据结构(即a_data)见下:
+    **  (x, y, hue, alpha);
+    ** 
+    **  其中:
+    **  (x, y)被转化到屏幕空间;
+    **  hue经由函数h2rgb，由色调转化为RGB颜色;
+    **  alpha作为透明度直接传入;
+    ** 
+    **  详见#vertex_shader_source
+    */
   }
 
 }
@@ -119,11 +120,11 @@ class Rocket {
     this.reset()                                // 重置状态到弹射器发射状态;
     this.shards = []                            // 建立烟花碎片对象池;
     for (var i = 0; i < this.stage.options.maxShardsPerRocket; ++i)
-      this.shards.push(new Shard(this))       // 填充烟花碎片对象池;
+      this.shards.push(new Shard(this))         // 填充烟花碎片对象池;
   }
 
   // 状态重置方法;
-  reset() {                                       // 初始化出射角度和速度;
+  reset() {                                     // 初始化出射角度和速度;
     this.angle = -Math.PI / 2 + (Math.random() - .5) * this.stage.options.rocketAngleRange
     this.vel = this.stage.options.rocketBaseVel + this.stage.options.rocketExtraVel * Math.random()
     this.mode = 0                               // 模式设为0，代表是未爆炸时的弹射阶段;
@@ -132,7 +133,7 @@ class Rocket {
     this.x = Math.random() * this.stage.w       // 随机从任意水平地点出射;
     this.y = this.stage.h                       // 固定从底部出射;
     this.hue = this.stage.tick * this.stage.options.initHueMultiplier
-  }                                               // 根据时间变化色调;
+  }                                             // 根据时间变化色调;
 
   // 状态更新方法(很简单，略);
   step(deltaTime) {
