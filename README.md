@@ -20,16 +20,17 @@
 ```shell
 .
 ├── README.md                       # 说明文档
-├── src                           # 代码
+├── src                             # 代码
 │   ├── webgl.js                    # webgl逻辑
 │   └── webgl.old.js                # webgl逻辑(旧)
-├── statics                       # 图片
+├── statics                         # 图片
 │   ├── mask_color_horizontal.jpg   # 彩色横版
 │   ├── mask_gliter_horizontal.jpg  # 金粉横板-启用
 │   ├── mask_gliter_vertical.jpg    # 金粉竖版-启用
 │   ├── mask_golden_horizontal.jpg  # 金色横板
 │   └── mask_white_horizontal.jpg   # 白色横板
-└── WebGLRocket.html                # 页面文件
+├── WebGLRocket.html                # 页面文件
+└── index.html                      # 页面文件(部属用)
 ```
 
 `WebGLRocket.html`为页面文件:
